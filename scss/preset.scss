@@ -1,0 +1,392 @@
+// ============================================================
+// Preset "Neon Night" para Boost / Boost Union — eLearning Fácil
+// Serie DINÁMICA: micro-interacciones e iconos rediseñados.
+// Respeta prefers-reduced-motion. Probado con Boost Union v5.1-r19.
+//
+// EN: "Neon Night" preset for Boost / Boost Union — eLearning Fácil.
+// DYNAMIC series: micro-interactions and redesigned icons.
+// Respects prefers-reduced-motion. Tested with Boost Union v5.1-r19.
+// ============================================================
+//
+// ─────────────── INSTRUCCIONES ───────────────
+// 1-2. INSTALADO COMO PLUGIN: ver README.md; las fuentes van incluidas en el tema.
+// 2. AJUSTES DE BOOST UNION. «brandcolor» vacío o igual a $primary (#35d0ba). Logo en versión
+//    clara (fondo oscuro en todo el sitio).
+// 3. PERSONALIZAR. Es un tema OSCURO: la escala $gray-100..900 está invertida a propósito;
+//    no parchear hueco a hueco. Trazo de los iconos %2335d0ba.
+// 4. TRAMPAS CONOCIDAS.
+//    - No borrar la paleta base ni los tres @import (fontawesome,
+//      bootstrap, moodle): sin ellos Moodle cae al CSS de reserva sin
+//      avisar (el sitio se ve como Boost por defecto).
+//    - Plugins de terceros con fondos claros propios pueden necesitar
+//      sumarse al bloque «Huecos del modo oscuro».
+//    - backdrop-filter en .card: si un popover se descoloca dentro de una
+//      tarjeta, quitarlo de ahí (crea bloque contenedor).
+// 5. VERIFICADO. Moodle 5.2 + Boost Union v5.2-r13 (19-oct-2026):
+//    compila sin fallback y axe-core (WCAG 2.2 AA) sin infracciones en
+//    login, panel, curso y actividad.
+// ─────────────────────────────────────────────
+//
+// ─────────────── INSTRUCTIONS (EN) ───────────────
+// 1-2. INSTALLED AS A PLUGIN: see README.md; the fonts are bundled with the theme.
+// 2. BOOST UNION SETTINGS. "brandcolor" empty or equal to $primary (#35d0ba). Use a light
+//    version of the logo (dark background across the whole site).
+// 3. CUSTOMISE. This is a DARK theme: the $gray-100..900 scale is inverted on purpose;
+//    do not patch gaps one by one. Icon stroke %2335d0ba.
+// 4. KNOWN PITFALLS.
+//    - Do not delete the base palette or the three @import lines (fontawesome,
+//      bootstrap, moodle): without them Moodle silently falls back to the
+//      backup CSS (the site looks like default Boost).
+//    - Third-party plugins with their own light backgrounds may need to be
+//      added to the «Huecos del modo oscuro» (dark mode gaps) block.
+//    - backdrop-filter on .card: if a popover is misplaced inside a
+//      card, remove it there (it creates a containing block).
+// 5. VERIFIED. Moodle 5.2 + Boost Union v5.2-r13 (19 Oct 2026):
+//    compiles without fallback and axe-core (WCAG 2.2 AA) reports no violations
+//    on login, dashboard, course and activity pages.
+// ─────────────────────────────────────────────
+
+// Tokens del design system de Moodle: OBLIGATORIO desde Moodle 5.3 (su SCSS
+// usa variables $mds-*; sin esta línea el preset cae al CSS de reserva). Existe
+// desde Moodle 5.2. En Moodle 5.1 hay que quitar esta línea.
+// EN: Moodle design-system tokens: REQUIRED since Moodle 5.3 (its SCSS uses
+// $mds-* variables; without this line the preset falls back to the default
+// CSS). Available since Moodle 5.2. On Moodle 5.1, remove this line.
+@import "design-system";
+
+$white: #fff;
+// Escala de grises INVERTIDA (tema oscuro): los tonos "claros" (usados como
+// fondos/hovers por Bootstrap y Moodle) pasan a superficies oscuras, y los
+// "oscuros" (usados como texto) pasan a claros. Arregla de raíz los hovers
+// del menú, pestañas activas, inputs del login y texto negro sobre oscuro.
+// EN: INVERTED gray scale (dark theme): the "light" tones (used as
+// backgrounds/hovers by Bootstrap and Moodle) become dark surfaces, and the
+// "dark" ones (used as text) become light. This fixes at the root the menu hovers,
+// active tabs, login inputs and black text on dark backgrounds.
+$gray-100: #1d212b;
+$gray-200: #232837;
+$gray-300: #2c3242;
+$gray-400: #55617a;
+$gray-500: #8892a6;
+$gray-600: #9aa4b5;
+$gray-700: #c6cdd9;
+$gray-800: #dfe4ec;
+$gray-900: #f1f4f8;
+$black: #000;
+$blue: #0f6cbf;
+$indigo: #6610f2;
+$purple: #613d7c;
+$pink: #e83e8c;
+$red: #ca3120;
+$orange: #f0ad4e;
+$yellow: #ff7518;
+$green: #357a32;
+$teal: #20c997;
+$cyan: #008196;
+
+// ──────────────── MARCA / BRAND ────────────────
+$primary: #35d0ba;
+$secondary: #8b93a7;
+$success: #4ade80;
+$info: #67e8f9;
+$warning: #fbbf24;
+$danger: #f87171;
+$body-bg: #12141a;
+$body-color: #e8ecf1;
+$headings-color: #f4f7fa;
+$link-color: #6fd3c7;
+$link-hover-color: #9ce8de;
+$border-radius: .875rem;
+$card-bg: #1b1f29;
+$card-color: #e8ecf1;
+$dropdown-bg: #1b1f29;
+$dropdown-color: #e8ecf1;
+$dropdown-link-color: #e8ecf1;
+$dropdown-link-hover-bg: #262b38;
+$dropdown-link-hover-color: #fff;
+$input-bg: #1b1f29;
+$input-color: #e8ecf1;
+$input-border-color: #333a49;
+$modal-content-bg: #1b1f29;
+$border-color: #2a3040;
+$headings-font-weight: 700;
+$link-decoration: none;
+// Componentes que por defecto asumen fondo claro.
+// EN: Components that assume a light background by default.
+$input-placeholder-color: #7d8798;
+$input-group-addon-bg: #232837;
+$form-check-input-bg: #232837;
+$form-check-input-border: 1px solid #8892a6;
+$form-switch-color: #cdd6e0;
+$form-select-indicator-color: #cdd6e0;
+$popover-bg: #1b1f29;
+$popover-header-bg: #232837;
+$list-group-bg: #1b1f29;
+$list-group-color: #e8ecf1;
+$list-group-hover-bg: #232837;
+$list-group-action-color: #e8ecf1;
+$pagination-bg: #1b1f29;
+$pagination-hover-bg: #232837;
+$pagination-disabled-bg: #171a22;
+$toast-background-color: rgba(27, 31, 41, .95);
+$toast-header-background-color: rgba(35, 40, 55, .95);
+$card-cap-bg: rgba(255, 255, 255, .04);
+$accordion-bg: #1b1f29;
+$accordion-button-bg: #1b1f29;
+$accordion-button-active-bg: #232837;
+$accordion-button-active-color: #f4f7fa;
+$btn-close-color: #e8ecf1;
+$nav-tabs-link-active-color: #f4f7fa;
+$breadcrumb-divider-color: #8892a6;
+$breadcrumb-active-color: #c6cdd9;
+// ────────────────────────────────────────
+
+@import "fontawesome";
+@import "bootstrap";
+@import "moodle";
+
+.navbar.fixed-top {
+    background: rgba(18, 20, 26, .85) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(53, 208, 186, .25);
+    .nav-link, .navbar-brand, .usermenu .userbutton, .login a { color: #e8ecf1 !important; }
+    .nav-link:hover { color: #35d0ba !important; text-shadow: 0 0 12px rgba(53, 208, 186, .6); }
+    .icon { color: #e8ecf1; }
+}
+.card {
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .08);
+    backdrop-filter: blur(8px);
+    transition: border-color .25s, box-shadow .25s, transform .2s;
+}
+.card:hover { border-color: rgba(53, 208, 186, .45); box-shadow: 0 0 24px rgba(53, 208, 186, .15); transform: translateY(-3px); }
+// Tarjeta bajo el ratón o con el foco, al frente: el transform del hover crea
+// stacking context y, sin esto, sus desplegables (menú ⋮ de bloques y de «Mis
+// cursos») se pintaban DETRÁS de la tarjeta siguiente.
+// EN: A card under the mouse or with focus is brought to the front: the hover
+// transform creates a stacking context and, without this, its dropdowns (⋮ menu
+// of blocks and of "My courses") were painted BEHIND the next card.
+.card:hover, .card:focus-within { z-index: 5; }
+.activityiconcontainer {
+    border-radius: .875rem;
+    background-color: rgba(53, 208, 186, .1) !important;
+    border: 1px solid rgba(53, 208, 186, .25);
+    transition: box-shadow .25s, transform .25s;
+    .activityicon, img { filter: brightness(1.4) saturate(1.2); }
+}
+.activityiconcontainer:hover { box-shadow: 0 0 18px rgba(53, 208, 186, .5); transform: scale(1.08); }
+.btn-primary { color: #0b1512; font-weight: 700; box-shadow: 0 0 16px rgba(53, 208, 186, .4); }
+.btn-primary:hover { box-shadow: 0 0 26px rgba(53, 208, 186, .65); }
+.drawer, .drawercontent { background-color: #161923; }
+a { transition: color .15s, text-shadow .15s; }
+a:hover { text-shadow: 0 0 10px rgba(111, 211, 199, .5); }
+
+// Huecos del modo oscuro: utilidades claras de Bootstrap y cabecera del curso.
+// EN: Dark mode gaps: Bootstrap light utilities and the course header.
+.bg-white { background-color: #1b1f29 !important; color: #e8ecf1; }
+.bg-light, .bg-gray-100 { background-color: #1f2430 !important; color: #e8ecf1; }
+#page-header .card, #page-header .bg-white { background-color: transparent !important; box-shadow: none; }
+.text-dark { color: #e8ecf1 !important; }
+.badge.bg-secondary, .badge.badge-secondary { background-color: #2a3040 !important; color: #cdd6e0; }
+// Nombre de sección: Boost fuerza gray-900 en el enlace.
+// EN: Section name: Boost forces gray-900 on the link.
+.sectionname a { color: #f4f7fa !important; }
+.sectionname a:hover { color: #9ce8de !important; }
+// Contenedor principal de Boost (blanco fijo en 5.2) y píldoras de restricción ($gray-200).
+// EN: Boost main container (hard-coded white in 5.2) and restriction pills ($gray-200).
+#topofscroll, .main-inner { background-color: #171a22 !important; }
+.availabilityinfo, .activity-availability { background-color: #1f2430 !important; color: #e8ecf1 !important; }
+.availabilityinfo .badge, .activity-availability .badge { background-color: #2a3040 !important; color: #cdd6e0 !important; }
+// Insignias de color claro (info, éxito, aviso, peligro) y contadores de avisos: texto oscuro,
+// no blanco (axe, 19-oct-2026: blanco sobre #67e8f9 daba 1,4:1 y sobre #f87171, 2,9:1).
+// EN: Light badges and notification counters get dark text instead of white (contrast).
+.badge.bg-info, .badge.text-bg-info, .badge.bg-success, .badge.text-bg-success,
+.badge.bg-warning, .badge.text-bg-warning, .badge.bg-danger, .badge.text-bg-danger { color: $body-bg !important; }
+.count-container, .navbar .count-container { color: $body-bg; }
+// Contenedor del login de Boost Union (blanco fijo).
+// EN: Boost Union login container (hard-coded white).
+.login-container, .login-wrapper { background-color: #1b1f29 !important; color: #e8ecf1; }
+// Boost pinta #page en blanco en las páginas de acceso (entrar, registro, recuperar contraseña): oscuro.
+// Sin !important: gana a Boost por orden y deja pasar la imagen de fondo que configure Boost Union.
+// EN: Boost paints #page white on the login pages (log in, sign up, forgot password): dark here.
+// No !important: it wins over Boost by source order and lets a Boost Union background image through.
+.pagelayout-login #page { background-color: $body-bg; }
+// Acceso a dos columnas (Moodle 5.3 y Boost Union): la tarjeta no trae relleno (lo lleva la columna).
+// EN: Two-column login (Moodle 5.3 and Boost Union): the card has no padding of its own (the column has it).
+.login-layout-right-content > .login-container {
+    padding: 2.5rem 2.25rem;
+    border: 1px solid rgba(53, 208, 186, .25);
+    border-radius: $border-radius;
+}
+// Botón de plegar sección: Moodle lo pinta claro (casi blanco en 5.2, blanco en 5.3).
+// EN: Section collapse button: Moodle paints it light (near white on 5.2, white on 5.3).
+.btn-icon.icons-collapse-expand { color: #35d0ba; background-color: rgba(53, 208, 186, .1); border: 1px solid rgba(53, 208, 186, .25); }
+// Foco de enlaces: Moodle pone fondo blanco y el texto claro del tema no se leía. Fondo turquesa y texto
+// oscuro (9,6:1); el contorno transparente de Moodle se conserva para forced-colors.
+// EN: Link focus: Moodle sets a white background and the theme's light text could not be read. Teal
+// background and dark text (9.6:1); Moodle's transparent outline is kept for forced-colors.
+.aalink, a.autolink, #page-footer a:not([class]), .arrow_link, a:not([class]), .activityinstance > a, .navbar.fixed-top .login a {
+    &.focus, &:focus {
+        color: #0b1512 !important;
+        background-color: #35d0ba;
+        box-shadow: 0 -.25rem #35d0ba, 0 .25rem #f4f7fa;
+    }
+}
+// Pestaña activa (secundaria del curso y pestañas de administración): Moodle fuerza negro.
+// EN: Active tab (course secondary nav and admin tabs): Moodle forces black.
+.secondary-navigation .nav-link.active, .nav-tabs .nav-link.active { color: #f4f7fa !important; background-color: transparent !important; }
+// Interruptor "Modo de edición" apagado: sin esto se funde con la barra oscura.
+// EN: "Edit mode" switch when off: without this it blends into the dark bar.
+.form-check-input:not(:checked) { background-color: #2a3040; border-color: #8892a6; }
+
+// Enlaces dentro del texto redactado (páginas, etiquetas, resúmenes, foros,
+// libro): subrayados siempre, para que no se distingan solo por el color
+// (WCAG 1.4.1). Menús, nombres de actividad y botones quedan sin subrayar.
+// EN: Links inside authored text (pages, labels, summaries, forums,
+// book): always underlined so they are not told apart by color alone
+// (WCAG 1.4.1). Menus, activity names and buttons stay without underline.
+#region-main :is(.no-overflow, .summarytext, .activity-altcontent, .course-description-item, .post-content-container, .book_content) a:not(.btn):not(.dropdown-item) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .18em;
+}
+#region-main :is(.no-overflow, .summarytext, .activity-altcontent, .course-description-item, .post-content-container, .book_content) a:not(.btn):not(.dropdown-item):hover {
+    text-decoration-thickness: 2px;
+}
+
+// ── Iconos propios de actividad (SVG embebido, sin ficheros) / Custom activity icons (inline SVG, no files) ──
+.modtype_page .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%225%22%20y%3D%223%22%20width%3D%2214%22%20height%3D%2218%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M9%208h6M9%2012h6M9%2016h4%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_book .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%206c-2-1.5-5-2-8-2v14c3%200%206%20.5%208%202%202-1.5%205-2%208-2V4c-3%200-6%20.5-8%202z%22%2F%3E%3Cpath%20d%3D%22M12%206v14%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_quiz .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%225%22%20y%3D%224%22%20width%3D%2214%22%20height%3D%2217%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M9%204V2h6v2%22%2F%3E%3Cpath%20d%3D%22M8.5%2013l2.5%202.5%204.5-5%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_assign .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M13%203H7a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V9z%22%2F%3E%3Cpath%20d%3D%22M13%203v6h6%22%2F%3E%3Cpath%20d%3D%22M9%2015l6-6%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_forum .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%205h12a2%202%200%200%201%202%202v5a2%202%200%200%201-2%202H8l-4%203V7a2%202%200%200%201%202-2z%22%2F%3E%3Cpath%20d%3D%22M21%209v6a2%202%200%200%201-2%202h-1v3l-3-3%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_url .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2014a5%205%200%200%200%207%200l3-3a5%205%200%200%200-7-7l-1.5%201.5%22%2F%3E%3Cpath%20d%3D%22M14%2010a5%205%200%200%200-7%200l-3%203a5%205%200%200%200%207%207l1.5-1.5%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_feedback .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%203l2.7%205.5%206%20.9-4.3%204.2%201%206-5.4-2.8-5.4%202.8%201-6L3.3%209.4l6-.9z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_resource .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M14%202H7a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V7z%22%2F%3E%3Cpath%20d%3D%22M14%202v5h5%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_folder .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%207a2%202%200%200%201%202-2h4l2%202h8a2%202%200%200%201%202%202v9a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_bigbluebuttonbn .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%2213%22%20height%3D%2212%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M16%2010l5-3v10l-5-3z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+.modtype_label .activityiconcontainer {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M21%2012l-9%209H5a2%202%200%200%201-2-2v-7l9-9z%22%2F%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-position: center !important;
+    background-size: 58% !important;
+    background-repeat: no-repeat !important;
+    .activityicon, img { display: none; }
+}
+
+// Movimiento reducido: fuera las animaciones y desplazamientos DEL PRESET.
+// Los spinners de carga de Moodle siguen girando: sin ellos parece que la
+// página se ha colgado.
+// EN: Reduced motion: the PRESET's animations and movements are removed.
+// Moodle's loading spinners keep spinning: without them the
+// page looks frozen.
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; }
+    .card:hover,
+    .activityiconcontainer:hover { transform: none !important; }
+}
+
+// ════════════════════ COMPATIBILIDAD MOODLE 5.3 / MOODLE 5.3 COMPATIBILITY ════════════════════
+
+// Moodle 5.3 dibuja cada sección como una tarjeta: fondo blanco en
+// .section-item, un contenedor nuevo .section-content-inner con fondo gris y
+// relleno, relleno en la cabecera y el tamaño del título en su enlace. Aquí
+// se neutraliza para que el preset se vea igual que en 5.2. En 5.2 estas
+// reglas no cambian nada (el contenedor no existe y los valores coinciden).
+// EN: Moodle 5.3 draws each section as a card: white .section-item
+// background, a new .section-content-inner wrapper with a grey background
+// and padding, padding on the header and the title size on its link. This
+// neutralises it so the preset looks the same as on 5.2. On 5.2 these rules
+// change nothing (the wrapper does not exist and the values match).
+.course-content .course-section .section-item { background-color: unset; }
+// Mismo nivel de anidación que la regla de Moodle 5.3, para ganarle.
+// EN: Same nesting depth as Moodle 5.3's rule, so it wins.
+.course-content .course-section .section-item .course-content-item-content .section-content-inner { padding: 0; border-top: 0; background-color: unset; }
+// Moodle 5.3 pinta el pie «oscuro» con un fondo claro del design system y deja los enlaces en
+// blanco (1,2:1): aquí vuelve a ser oscuro. En 5.2 el valor ya coincide.
+// EN: Moodle 5.3 gives the "dark" footer a light design-system background while its links stay
+// white (1.2:1): it goes back to dark here. On 5.2 the value already matches.
+.footer-dark { background-color: $card-bg !important; color: $body-color; }
+// Panel de depuración «reactive» de Moodle 5.3 (solo con depuración de desarrollador): texto claro
+// sobre fondo claro (axe). Se le da el fondo de las tarjetas. EN: Moodle 5.3 reactive debug panel
+// (developer debugging only): light text on a light background (axe); it gets the card background.
+[id$="-reactive-debugpanel"] { background-color: $card-bg; color: $body-color; padding-inline: .75rem; }
+
+// Moodle 5.3: el interruptor «Modo de edición» es un componente nuevo del
+// design system (.mds-switch-label); su texto sale oscuro sobre la barra.
+// EN: Moodle 5.3: the "Edit mode" switch is a new design-system component
+// (.mds-switch-label); its text comes out dark on the bar.
+.navbar.fixed-top .editmode-switch-form .mds-switch-label { color: #fff !important; }
+
+// Moodle 5.3: las actividades y otros componentes nuevos toman el fondo de
+// los tokens --mds-* del design system, que son claros. En este tema oscuro
+// se redefinen con la paleta del preset (en 5.2 no se usan).
+// EN: Moodle 5.3: activities and other new components take their background
+// from the design system's --mds-* tokens, which are light. In this dark
+// theme they are redefined with the preset palette (unused on 5.2).
+:root {
+    --mds-bg-surface-subtle: #1b1f29;
+    --mds-bg-surface-default: #232837;
+    --mds-bg-surface-strong: #2c3242;
+    --mds-border-subtle: #2a3040;
+    --mds-border-default: #333a49;
+}
