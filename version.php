@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_efneonnight';
-$plugin->version = 2026111600;
-$plugin->release = '1.0.2';
+$plugin->version = 2026111601;
+$plugin->release = '1.0.3';
 $plugin->requires = 2026042000;
 $plugin->supported = [502, 503];
 $plugin->maturity = MATURITY_STABLE;

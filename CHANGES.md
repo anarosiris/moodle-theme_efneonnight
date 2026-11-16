@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 (2026-11-16)
+
+- Documentation: the user guide is now included as a PDF, in English and in
+  Spanish, in `docs/manual/`. No change in the design or in the compiled CSS.
+- New preview image in the theme selector.
+
 ## 1.0.2 (2026-11-16)
 
 - Moodle 5.3 colour modes (experimental, off by default): the theme now keeps
