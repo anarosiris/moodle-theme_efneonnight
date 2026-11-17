@@ -10,10 +10,16 @@
 //
 // ─────────────── INSTRUCCIONES ───────────────
 // 1-2. INSTALADO COMO PLUGIN: ver README.md; las fuentes van incluidas en el tema.
-// 2. AJUSTES DE BOOST UNION. «brandcolor» vacío o igual a $primary (#35d0ba). Logo en versión
-//    clara (fondo oscuro en todo el sitio).
-// 3. PERSONALIZAR. Es un tema OSCURO: la escala $gray-100..900 está invertida a propósito;
-//    no parchear hueco a hueco. Trazo de los iconos %2335d0ba.
+// 2. AJUSTES DE BOOST UNION. «brandcolor» vacío (este tema no lo usa: el color se cambia con
+//    $neon-acento). Logo en versión clara (fondo oscuro en todo el sitio).
+// 3. PERSONALIZAR. Colores en TOKENS y partes opcionales en INTERRUPTORES. Se cambian en Boost
+//    Union → Look → SCSS → «Raw initial SCSS» (o en un flavour), sin tocar este fichero: una
+//    línea por variable, p. ej. `$neon-acento: #ff7ac6;` (botones, bordes, brillos, iconos y
+//    enlaces siguen al color nuevo). Sobre $neon-acento va texto oscuro ($neon-tinta): elegir un
+//    acento claro (5:1 o más). Sin resplandor: `$neon-brillo: false;`. Sin desenfoque:
+//    `$neon-vidrio: false;`. Con los iconos de Moodle: `$neon-iconos: false;`.
+//    Es un tema OSCURO: la escala $gray-100..900 está invertida a propósito; no parchear hueco
+//    a hueco.
 // 4. TRAMPAS CONOCIDAS.
 //    - No borrar la paleta base ni los tres @import (fontawesome,
 //      bootstrap, moodle): sin ellos Moodle cae al CSS de reserva sin
@@ -21,7 +27,7 @@
 //    - Plugins de terceros con fondos claros propios pueden necesitar
 //      sumarse al bloque «Huecos del modo oscuro».
 //    - backdrop-filter en .card: si un popover se descoloca dentro de una
-//      tarjeta, quitarlo de ahí (crea bloque contenedor).
+//      tarjeta, apagar $neon-vidrio (crea bloque contenedor).
 // 5. VERIFICADO. Moodle 5.2 + Boost Union v5.2-r13 (19-oct-2026):
 //    compila sin fallback y axe-core (WCAG 2.2 AA) sin infracciones en
 //    login, panel, curso y actividad.
@@ -29,10 +35,16 @@
 //
 // ─────────────── INSTRUCTIONS (EN) ───────────────
 // 1-2. INSTALLED AS A PLUGIN: see README.md; the fonts are bundled with the theme.
-// 2. BOOST UNION SETTINGS. "brandcolor" empty or equal to $primary (#35d0ba). Use a light
-//    version of the logo (dark background across the whole site).
-// 3. CUSTOMISE. This is a DARK theme: the $gray-100..900 scale is inverted on purpose;
-//    do not patch gaps one by one. Icon stroke %2335d0ba.
+// 2. BOOST UNION SETTINGS. "brandcolor" empty (this theme does not use it: change the colour
+//    with $neon-acento). Use a light version of the logo (dark background across the whole site).
+// 3. CUSTOMISE. Colours in TOKENS and optional parts in SWITCHES. Change them in Boost Union →
+//    Look → SCSS → "Raw initial SCSS" (or in a flavour), without editing this file: one line
+//    per variable, e.g. `$neon-acento: #ff7ac6;` (buttons, borders, glows, icons and links
+//    follow the new colour). Text on $neon-acento is dark ($neon-tinta): choose a light accent
+//    (5:1 or better). No glow: `$neon-brillo: false;`. No blur: `$neon-vidrio: false;`.
+//    Moodle's own icons: `$neon-iconos: false;`.
+//    This is a DARK theme: the $gray-100..900 scale is inverted on purpose; do not patch gaps
+//    one by one.
 // 4. KNOWN PITFALLS.
 //    - Do not delete the base palette or the three @import lines (fontawesome,
 //      bootstrap, moodle): without them Moodle silently falls back to the
@@ -40,7 +52,7 @@
 //    - Third-party plugins with their own light backgrounds may need to be
 //      added to the «Huecos del modo oscuro» (dark mode gaps) block.
 //    - backdrop-filter on .card: if a popover is misplaced inside a
-//      card, remove it there (it creates a containing block).
+//      card, turn $neon-vidrio off (it creates a containing block).
 // 5. VERIFIED. Moodle 5.2 + Boost Union v5.2-r13 (19 Oct 2026):
 //    compiles without fallback and axe-core (WCAG 2.2 AA) reports no violations
 //    on login, dashboard, course and activity pages.
@@ -84,59 +96,96 @@ $green: #357a32;
 $teal: #20c997;
 $cyan: #008196;
 
+// ──────────────── TOKENS ────────────────
+// Se cambian en Boost Union → Look → SCSS → «Raw initial SCSS» (o en un flavour), sin tocar este fichero.
+// EN: Change them in Boost Union → Look → SCSS → "Raw initial SCSS" (or in a flavour), without editing this file.
+$neon-acento: #35d0ba !default;        // Color neón: botones, bordes, brillos e iconos. / EN: Neon colour: buttons, borders, glows and icons.
+$neon-tinta: #0b1512 !default;         // Texto sobre el color neón: 9,6:1. / EN: Text on the neon colour: 9.6:1.
+$neon-fondo: #12141a !default;         // Fondo de la página. / EN: Page background.
+$neon-panel: #1b1f29 !default;         // Tarjetas, menús, formularios y diálogos. / EN: Cards, menus, forms and dialogs.
+$neon-panel-2: #232837 !default;       // Panel elevado y elementos al pasar el ratón. / EN: Raised panel and hovered items.
+$neon-borde: #2a3040 !default;         // Bordes y separadores. / EN: Borders and dividers.
+$neon-texto: #e8ecf1 !default;         // Texto: 13,9:1 sobre panel. / EN: Text: 13.9:1 on panel.
+$neon-titulos: #f4f7fa !default;       // Títulos. / EN: Headings.
+// Valor de serie de un color derivado del neón: el escrito a mano mientras $neon-acento es el de
+// serie; si se cambia, el derivado (así los enlaces siguen al color del tema).
+// EN: Default of a colour derived from the neon: the hand-picked one while $neon-acento is the
+// stock one; if it is changed, the derived one (so links follow the theme colour).
+@function neon-serie($de-serie, $derivado) {
+    @return if($neon-acento == #35d0ba, $de-serie, $derivado);
+}
+$neon-enlace: neon-serie(#6fd3c7, mix($neon-acento, $white, 72%)) !default;             // Enlaces: 9,3:1 sobre panel. / EN: Links: 9.3:1 on panel.
+$neon-enlace-activo: neon-serie(#9ce8de, mix($neon-acento, $white, 50%)) !default;      // Enlaces al pasar el ratón. / EN: Hovered links.
+// Superficies intermedias (columna de contenido, cajones y fondos suaves): las de serie mientras
+// $neon-fondo, $neon-panel y $neon-panel-2 lo son; si alguno cambia, mezcla de ellos.
+// EN: In-between surfaces (content column, drawers and soft backgrounds): the stock ones while
+// $neon-fondo, $neon-panel and $neon-panel-2 are stock; if any changes, a mix of them.
+$neon-superficies-de-serie: $neon-fondo == #12141a and $neon-panel == #1b1f29 and $neon-panel-2 == #232837;
+$neon-contenido: if($neon-superficies-de-serie, #171a22, mix($neon-panel, $neon-fondo, 55%)) !default;
+$neon-cajon: if($neon-superficies-de-serie, #161923, mix($neon-panel, $neon-fondo, 45%)) !default;
+$neon-suave: if($neon-superficies-de-serie, #1f2430, mix($neon-panel-2, $neon-panel, 50%)) !default;
+
+// ──────────────── INTERRUPTORES / SWITCHES ────────────────
+$neon-brillo: true !default;      // Resplandor de neón en tarjetas, botones, iconos y enlaces. / EN: Neon glow on cards, buttons, icons and links.
+$neon-vidrio: true !default;      // Desenfoque translúcido de la barra y las tarjetas. / EN: Translucent blur on the top bar and the cards.
+$neon-iconos: true !default;      // Iconos propios de actividad. / EN: Custom activity icons.
+
 // ──────────────── MARCA / BRAND ────────────────
-$primary: #35d0ba;
+// Sin !default a propósito: el «Primary brand color» de Boost Union no cambia este tema; el color
+// se cambia con $neon-acento. EN: no !default on purpose: Boost Union's "Primary brand color" does
+// not change this theme; change the colour with $neon-acento.
+$primary: $neon-acento;
 $secondary: #8b93a7;
 $success: #4ade80;
 $info: #67e8f9;
 $warning: #fbbf24;
 $danger: #f87171;
-$body-bg: #12141a;
-$body-color: #e8ecf1;
-$headings-color: #f4f7fa;
-$link-color: #6fd3c7;
-$link-hover-color: #9ce8de;
+$body-bg: $neon-fondo;
+$body-color: $neon-texto;
+$headings-color: $neon-titulos;
+$link-color: $neon-enlace;
+$link-hover-color: $neon-enlace-activo;
 $border-radius: .875rem;
-$card-bg: #1b1f29;
-$card-color: #e8ecf1;
-$dropdown-bg: #1b1f29;
-$dropdown-color: #e8ecf1;
-$dropdown-link-color: #e8ecf1;
+$card-bg: $neon-panel;
+$card-color: $neon-texto;
+$dropdown-bg: $neon-panel;
+$dropdown-color: $neon-texto;
+$dropdown-link-color: $neon-texto;
 $dropdown-link-hover-bg: #262b38;
 $dropdown-link-hover-color: #fff;
-$input-bg: #1b1f29;
-$input-color: #e8ecf1;
+$input-bg: $neon-panel;
+$input-color: $neon-texto;
 $input-border-color: #333a49;
-$modal-content-bg: #1b1f29;
-$border-color: #2a3040;
+$modal-content-bg: $neon-panel;
+$border-color: $neon-borde;
 $headings-font-weight: 700;
 $link-decoration: none;
 // Componentes que por defecto asumen fondo claro.
 // EN: Components that assume a light background by default.
 $input-placeholder-color: #7d8798;
-$input-group-addon-bg: #232837;
-$form-check-input-bg: #232837;
+$input-group-addon-bg: $neon-panel-2;
+$form-check-input-bg: $neon-panel-2;
 $form-check-input-border: 1px solid #8892a6;
 $form-switch-color: #cdd6e0;
 $form-select-indicator-color: #cdd6e0;
-$popover-bg: #1b1f29;
-$popover-header-bg: #232837;
-$list-group-bg: #1b1f29;
-$list-group-color: #e8ecf1;
-$list-group-hover-bg: #232837;
-$list-group-action-color: #e8ecf1;
-$pagination-bg: #1b1f29;
-$pagination-hover-bg: #232837;
-$pagination-disabled-bg: #171a22;
-$toast-background-color: rgba(27, 31, 41, .95);
-$toast-header-background-color: rgba(35, 40, 55, .95);
+$popover-bg: $neon-panel;
+$popover-header-bg: $neon-panel-2;
+$list-group-bg: $neon-panel;
+$list-group-color: $neon-texto;
+$list-group-hover-bg: $neon-panel-2;
+$list-group-action-color: $neon-texto;
+$pagination-bg: $neon-panel;
+$pagination-hover-bg: $neon-panel-2;
+$pagination-disabled-bg: $neon-contenido;
+$toast-background-color: rgba($neon-panel, .95);
+$toast-header-background-color: rgba($neon-panel-2, .95);
 $card-cap-bg: rgba(255, 255, 255, .04);
-$accordion-bg: #1b1f29;
-$accordion-button-bg: #1b1f29;
-$accordion-button-active-bg: #232837;
-$accordion-button-active-color: #f4f7fa;
-$btn-close-color: #e8ecf1;
-$nav-tabs-link-active-color: #f4f7fa;
+$accordion-bg: $neon-panel;
+$accordion-button-bg: $neon-panel;
+$accordion-button-active-bg: $neon-panel-2;
+$accordion-button-active-color: $neon-titulos;
+$btn-close-color: $neon-texto;
+$nav-tabs-link-active-color: $neon-titulos;
 $breadcrumb-divider-color: #8892a6;
 $breadcrumb-active-color: #c6cdd9;
 // ────────────────────────────────────────
@@ -146,20 +195,27 @@ $breadcrumb-active-color: #c6cdd9;
 @import "moodle";
 
 .navbar.fixed-top {
-    background: rgba(18, 20, 26, .85) !important;
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(53, 208, 186, .25);
-    .nav-link, .navbar-brand, .usermenu .userbutton, .login a { color: #e8ecf1 !important; }
-    .nav-link:hover { color: #35d0ba !important; text-shadow: 0 0 12px rgba(53, 208, 186, .6); }
-    .icon { color: #e8ecf1; }
+    background: rgba($neon-fondo, .85) !important;
+    @if $neon-vidrio { backdrop-filter: blur(12px); }
+    border-bottom: 1px solid rgba($neon-acento, .25);
+    .nav-link, .navbar-brand, .usermenu .userbutton, .login a { color: $neon-texto !important; }
+    .nav-link:hover {
+        color: $neon-acento !important;
+        @if $neon-brillo { text-shadow: 0 0 12px rgba($neon-acento, .6); }
+    }
+    .icon { color: $neon-texto; }
 }
 .card {
     background: rgba(255, 255, 255, .04);
     border: 1px solid rgba(255, 255, 255, .08);
-    backdrop-filter: blur(8px);
+    @if $neon-vidrio { backdrop-filter: blur(8px); }
     transition: border-color .25s, box-shadow .25s, transform .2s;
 }
-.card:hover { border-color: rgba(53, 208, 186, .45); box-shadow: 0 0 24px rgba(53, 208, 186, .15); transform: translateY(-3px); }
+.card:hover {
+    border-color: rgba($neon-acento, .45);
+    @if $neon-brillo { box-shadow: 0 0 24px rgba($neon-acento, .15); }
+    transform: translateY(-3px);
+}
 // Tarjeta bajo el ratón o con el foco, al frente: el transform del hover crea
 // stacking context y, sin esto, sus desplegables (menú ⋮ de bloques y de «Mis
 // cursos») se pintaban DETRÁS de la tarjeta siguiente.
@@ -169,34 +225,47 @@ $breadcrumb-active-color: #c6cdd9;
 .card:hover, .card:focus-within { z-index: 5; }
 .activityiconcontainer {
     border-radius: .875rem;
-    background-color: rgba(53, 208, 186, .1) !important;
-    border: 1px solid rgba(53, 208, 186, .25);
+    background-color: rgba($neon-acento, .1) !important;
+    border: 1px solid rgba($neon-acento, .25);
     transition: box-shadow .25s, transform .25s;
     .activityicon, img { filter: brightness(1.4) saturate(1.2); }
 }
-.activityiconcontainer:hover { box-shadow: 0 0 18px rgba(53, 208, 186, .5); transform: scale(1.08); }
-.btn-primary { color: #0b1512; font-weight: 700; box-shadow: 0 0 16px rgba(53, 208, 186, .4); }
-.btn-primary:hover { box-shadow: 0 0 26px rgba(53, 208, 186, .65); }
-.drawer, .drawercontent { background-color: #161923; }
-a { transition: color .15s, text-shadow .15s; }
-a:hover { text-shadow: 0 0 10px rgba(111, 211, 199, .5); }
+.activityiconcontainer:hover {
+    @if $neon-brillo { box-shadow: 0 0 18px rgba($neon-acento, .5); }
+    transform: scale(1.08);
+}
+.btn-primary {
+    color: $neon-tinta;
+    font-weight: 700;
+    @if $neon-brillo { box-shadow: 0 0 16px rgba($neon-acento, .4); }
+}
+@if $neon-brillo {
+    .btn-primary:hover { box-shadow: 0 0 26px rgba($neon-acento, .65); }
+}
+.drawer, .drawercontent { background-color: $neon-cajon; }
+@if $neon-brillo {
+    a { transition: color .15s, text-shadow .15s; }
+    a:hover { text-shadow: 0 0 10px rgba($neon-enlace, .5); }
+} @else {
+    a { transition: color .15s; }
+}
 
 // Huecos del modo oscuro: utilidades claras de Bootstrap y cabecera del curso.
 // EN: Dark mode gaps: Bootstrap light utilities and the course header.
-.bg-white { background-color: #1b1f29 !important; color: #e8ecf1; }
-.bg-light, .bg-gray-100 { background-color: #1f2430 !important; color: #e8ecf1; }
+.bg-white { background-color: $neon-panel !important; color: $neon-texto; }
+.bg-light, .bg-gray-100 { background-color: $neon-suave !important; color: $neon-texto; }
 #page-header .card, #page-header .bg-white { background-color: transparent !important; box-shadow: none; }
-.text-dark { color: #e8ecf1 !important; }
-.badge.bg-secondary, .badge.badge-secondary { background-color: #2a3040 !important; color: #cdd6e0; }
+.text-dark { color: $neon-texto !important; }
+.badge.bg-secondary, .badge.badge-secondary { background-color: $neon-borde !important; color: #cdd6e0; }
 // Nombre de sección: Boost fuerza gray-900 en el enlace.
 // EN: Section name: Boost forces gray-900 on the link.
-.sectionname a { color: #f4f7fa !important; }
-.sectionname a:hover { color: #9ce8de !important; }
+.sectionname a { color: $neon-titulos !important; }
+.sectionname a:hover { color: $neon-enlace-activo !important; }
 // Contenedor principal de Boost (blanco fijo en 5.2) y píldoras de restricción ($gray-200).
 // EN: Boost main container (hard-coded white in 5.2) and restriction pills ($gray-200).
-#topofscroll, .main-inner { background-color: #171a22 !important; }
-.availabilityinfo, .activity-availability { background-color: #1f2430 !important; color: #e8ecf1 !important; }
-.availabilityinfo .badge, .activity-availability .badge { background-color: #2a3040 !important; color: #cdd6e0 !important; }
+#topofscroll, .main-inner { background-color: $neon-contenido !important; }
+.availabilityinfo, .activity-availability { background-color: $neon-suave !important; color: $neon-texto !important; }
+.availabilityinfo .badge, .activity-availability .badge { background-color: $neon-borde !important; color: #cdd6e0 !important; }
 // Insignias de color claro (info, éxito, aviso, peligro) y contadores de avisos: texto oscuro,
 // no blanco (axe, 19-oct-2026: blanco sobre #67e8f9 daba 1,4:1 y sobre #f87171, 2,9:1).
 // EN: Light badges and notification counters get dark text instead of white (contrast).
@@ -205,7 +274,7 @@ a:hover { text-shadow: 0 0 10px rgba(111, 211, 199, .5); }
 .count-container, .navbar .count-container { color: $body-bg; }
 // Contenedor del login de Boost Union (blanco fijo).
 // EN: Boost Union login container (hard-coded white).
-.login-container, .login-wrapper { background-color: #1b1f29 !important; color: #e8ecf1; }
+.login-container, .login-wrapper { background-color: $neon-panel !important; color: $neon-texto; }
 // Boost pinta #page en blanco en las páginas de acceso (entrar, registro, recuperar contraseña): oscuro.
 // Sin !important: gana a Boost por orden y deja pasar la imagen de fondo que configure Boost Union.
 // EN: Boost paints #page white on the login pages (log in, sign up, forgot password): dark here.
@@ -215,29 +284,29 @@ a:hover { text-shadow: 0 0 10px rgba(111, 211, 199, .5); }
 // EN: Two-column login (Moodle 5.3 and Boost Union): the card has no padding of its own (the column has it).
 .login-layout-right-content > .login-container {
     padding: 2.5rem 2.25rem;
-    border: 1px solid rgba(53, 208, 186, .25);
+    border: 1px solid rgba($neon-acento, .25);
     border-radius: $border-radius;
 }
 // Botón de plegar sección: Moodle lo pinta claro (casi blanco en 5.2, blanco en 5.3).
 // EN: Section collapse button: Moodle paints it light (near white on 5.2, white on 5.3).
-.btn-icon.icons-collapse-expand { color: #35d0ba; background-color: rgba(53, 208, 186, .1); border: 1px solid rgba(53, 208, 186, .25); }
+.btn-icon.icons-collapse-expand { color: $neon-acento; background-color: rgba($neon-acento, .1); border: 1px solid rgba($neon-acento, .25); }
 // Foco de enlaces: Moodle pone fondo blanco y el texto claro del tema no se leía. Fondo turquesa y texto
 // oscuro (9,6:1); el contorno transparente de Moodle se conserva para forced-colors.
 // EN: Link focus: Moodle sets a white background and the theme's light text could not be read. Teal
 // background and dark text (9.6:1); Moodle's transparent outline is kept for forced-colors.
 .aalink, a.autolink, #page-footer a:not([class]), .arrow_link, a:not([class]), .activityinstance > a, .navbar.fixed-top .login a {
     &.focus, &:focus {
-        color: #0b1512 !important;
-        background-color: #35d0ba;
-        box-shadow: 0 -.25rem #35d0ba, 0 .25rem #f4f7fa;
+        color: $neon-tinta !important;
+        background-color: $neon-acento;
+        box-shadow: 0 -.25rem $neon-acento, 0 .25rem $neon-titulos;
     }
 }
 // Pestaña activa (secundaria del curso y pestañas de administración): Moodle fuerza negro.
 // EN: Active tab (course secondary nav and admin tabs): Moodle forces black.
-.secondary-navigation .nav-link.active, .nav-tabs .nav-link.active { color: #f4f7fa !important; background-color: transparent !important; }
+.secondary-navigation .nav-link.active, .nav-tabs .nav-link.active { color: $neon-titulos !important; background-color: transparent !important; }
 // Interruptor "Modo de edición" apagado: sin esto se funde con la barra oscura.
 // EN: "Edit mode" switch when off: without this it blends into the dark bar.
-.form-check-input:not(:checked) { background-color: #2a3040; border-color: #8892a6; }
+.form-check-input:not(:checked) { background-color: $neon-borde; border-color: #8892a6; }
 
 // Enlaces dentro del texto redactado (páginas, etiquetas, resúmenes, foros,
 // libro): subrayados siempre, para que no se distingan solo por el color
@@ -254,83 +323,44 @@ a:hover { text-shadow: 0 0 10px rgba(111, 211, 199, .5); }
     text-decoration-thickness: 2px;
 }
 
-// ── Iconos propios de actividad (SVG embebido, sin ficheros) / Custom activity icons (inline SVG, no files) ──
-.modtype_page .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%225%22%20y%3D%223%22%20width%3D%2214%22%20height%3D%2218%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M9%208h6M9%2012h6M9%2016h4%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_book .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%206c-2-1.5-5-2-8-2v14c3%200%206%20.5%208%202%202-1.5%205-2%208-2V4c-3%200-6%20.5-8%202z%22%2F%3E%3Cpath%20d%3D%22M12%206v14%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_quiz .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%225%22%20y%3D%224%22%20width%3D%2214%22%20height%3D%2217%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M9%204V2h6v2%22%2F%3E%3Cpath%20d%3D%22M8.5%2013l2.5%202.5%204.5-5%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_assign .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M13%203H7a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V9z%22%2F%3E%3Cpath%20d%3D%22M13%203v6h6%22%2F%3E%3Cpath%20d%3D%22M9%2015l6-6%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_forum .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%205h12a2%202%200%200%201%202%202v5a2%202%200%200%201-2%202H8l-4%203V7a2%202%200%200%201%202-2z%22%2F%3E%3Cpath%20d%3D%22M21%209v6a2%202%200%200%201-2%202h-1v3l-3-3%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_url .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2014a5%205%200%200%200%207%200l3-3a5%205%200%200%200-7-7l-1.5%201.5%22%2F%3E%3Cpath%20d%3D%22M14%2010a5%205%200%200%200-7%200l-3%203a5%205%200%200%200%207%207l1.5-1.5%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_feedback .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%203l2.7%205.5%206%20.9-4.3%204.2%201%206-5.4-2.8-5.4%202.8%201-6L3.3%209.4l6-.9z%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_resource .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M14%202H7a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V7z%22%2F%3E%3Cpath%20d%3D%22M14%202v5h5%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_folder .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%207a2%202%200%200%201%202-2h4l2%202h8a2%202%200%200%201%202%202v9a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2z%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_bigbluebuttonbn .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%2213%22%20height%3D%2212%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M16%2010l5-3v10l-5-3z%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
-}
-.modtype_label .activityiconcontainer {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2335d0ba%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M21%2012l-9%209H5a2%202%200%200%201-2-2v-7l9-9z%22%2F%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E%3C%2Fsvg%3E") !important;
-    background-position: center !important;
-    background-size: 58% !important;
-    background-repeat: no-repeat !important;
-    .activityicon, img { display: none; }
+// Pie: «Has iniciado sesión como…», «Salir» y «Desarrollado por Moodle» son enlaces dentro de una
+// frase; subrayados para que no se distingan solo por el color (WCAG 1.4.1; axe los marcaba a
+// 390 px, donde el pie va a la vista).
+// EN: Footer: "You are logged in as…", "Log out" and "Powered by Moodle" are links inside a
+// sentence; underlined so they are not told apart by colour alone (WCAG 1.4.1; axe flagged them
+// at 390 px, where the footer shows).
+.logininfo a, #page-footer a[href$="moodle.com"] { text-decoration: underline; }
+
+// ── Iconos propios de actividad (SVG embebido, sin ficheros): trazo del color $neon-acento.
+// Un módulo nuevo = una línea (el dibujo, codificado para URL, en una rejilla de 24×24).
+// EN: ── Custom activity icons (inline SVG, no files): stroke in the $neon-acento colour.
+// New module = one line (the drawing, URL-encoded, on a 24×24 grid).
+@if $neon-iconos {
+    $neon-dibujos: (
+        page: "%3Crect%20x%3D%225%22%20y%3D%223%22%20width%3D%2214%22%20height%3D%2218%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M9%208h6M9%2012h6M9%2016h4%22%2F%3E",
+        book: "%3Cpath%20d%3D%22M12%206c-2-1.5-5-2-8-2v14c3%200%206%20.5%208%202%202-1.5%205-2%208-2V4c-3%200-6%20.5-8%202z%22%2F%3E%3Cpath%20d%3D%22M12%206v14%22%2F%3E",
+        quiz: "%3Crect%20x%3D%225%22%20y%3D%224%22%20width%3D%2214%22%20height%3D%2217%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M9%204V2h6v2%22%2F%3E%3Cpath%20d%3D%22M8.5%2013l2.5%202.5%204.5-5%22%2F%3E",
+        assign: "%3Cpath%20d%3D%22M13%203H7a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V9z%22%2F%3E%3Cpath%20d%3D%22M13%203v6h6%22%2F%3E%3Cpath%20d%3D%22M9%2015l6-6%22%2F%3E",
+        forum: "%3Cpath%20d%3D%22M3%205h12a2%202%200%200%201%202%202v5a2%202%200%200%201-2%202H8l-4%203V7a2%202%200%200%201%202-2z%22%2F%3E%3Cpath%20d%3D%22M21%209v6a2%202%200%200%201-2%202h-1v3l-3-3%22%2F%3E",
+        url: "%3Cpath%20d%3D%22M10%2014a5%205%200%200%200%207%200l3-3a5%205%200%200%200-7-7l-1.5%201.5%22%2F%3E%3Cpath%20d%3D%22M14%2010a5%205%200%200%200-7%200l-3%203a5%205%200%200%200%207%207l1.5-1.5%22%2F%3E",
+        feedback: "%3Cpath%20d%3D%22M12%203l2.7%205.5%206%20.9-4.3%204.2%201%206-5.4-2.8-5.4%202.8%201-6L3.3%209.4l6-.9z%22%2F%3E",
+        resource: "%3Cpath%20d%3D%22M14%202H7a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V7z%22%2F%3E%3Cpath%20d%3D%22M14%202v5h5%22%2F%3E",
+        folder: "%3Cpath%20d%3D%22M3%207a2%202%200%200%201%202-2h4l2%202h8a2%202%200%200%201%202%202v9a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2z%22%2F%3E",
+        bigbluebuttonbn: "%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%2213%22%20height%3D%2212%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M16%2010l5-3v10l-5-3z%22%2F%3E",
+        label: "%3Cpath%20d%3D%22M21%2012l-9%209H5a2%202%200%200%201-2-2v-7l9-9z%22%2F%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E",
+    );
+    // Color en hexadecimal sin «#», para escribirlo dentro de la URL del SVG.
+    // EN: Colour as hex without "#", to write it inside the SVG URL.
+    $neon-trazo: to-lower-case(str-slice(ie-hex-str($neon-acento), 4));
+    @each $mod, $dibujo in $neon-dibujos {
+        .modtype_#{$mod} .activityiconcontainer {
+            background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23#{$neon-trazo}%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E#{$dibujo}%3C%2Fsvg%3E") !important;
+            background-position: center !important;
+            background-size: 58% !important;
+            background-repeat: no-repeat !important;
+            .activityicon, img { display: none; }
+        }
+    }
 }
 
 // Movimiento reducido: fuera las animaciones y desplazamientos DEL PRESET.
@@ -384,9 +414,9 @@ a:hover { text-shadow: 0 0 10px rgba(111, 211, 199, .5); }
 // from the design system's --mds-* tokens, which are light. In this dark
 // theme they are redefined with the preset palette (unused on 5.2).
 :root {
-    --mds-bg-surface-subtle: #1b1f29;
-    --mds-bg-surface-default: #232837;
-    --mds-bg-surface-strong: #2c3242;
-    --mds-border-subtle: #2a3040;
-    --mds-border-default: #333a49;
+    --mds-bg-surface-subtle: #{$neon-panel};
+    --mds-bg-surface-default: #{$neon-panel-2};
+    --mds-bg-surface-strong: #{$gray-300};
+    --mds-border-subtle: #{$neon-borde};
+    --mds-border-default: #{$input-border-color};
 }

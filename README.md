@@ -34,8 +34,9 @@ The full user guide, with screenshots, is in `docs/manual/` as a PDF:
 
 Colours and the other design tokens are the variables at the top of
 `scss/preset.scss` (its INSTRUCTIONS block explains them). The variables marked
-`!default` can also be overridden for one category or cohort only with a Boost
-Union flavour (Boost Union → Flavours → *Raw initial SCSS*).
+`!default` are changed without editing that file: for the whole site in Boost
+Union → Look → SCSS → *Raw initial SCSS*, or for one category or cohort only
+with a Boost Union flavour (Boost Union → Flavours → *Raw initial SCSS*).
 
 ## Support and issues
 

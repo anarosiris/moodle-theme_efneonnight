@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 (2026-11-17)
+
+- The colours are now customisation variables that can be changed in Boost Union's *Raw
+  initial SCSS* or in a flavour, without editing the theme: `$neon-acento` (buttons, borders,
+  glows, icons and links follow it), `$neon-tinta`, `$neon-fondo`, `$neon-panel`,
+  `$neon-panel-2`, `$neon-borde`, `$neon-texto`, `$neon-titulos`, `$neon-enlace` and
+  `$neon-enlace-activo`. The in-between surfaces follow the background and the panels.
+- New switches: `$neon-brillo` (neon glow), `$neon-vidrio` (blur on the top bar and the cards)
+  and `$neon-iconos` (custom activity icons).
+- No other visual change by default: with the default values the rest of the compiled CSS is
+  identical to 1.0.3.
+- Footer login links underlined on narrow screens (accessibility).
+- Guides: the user guide (`docs/manual/`) and the quick guide explain the new variables and
+  switches, with examples.
+
 ## 1.0.3 (2026-11-16)
 
 - Documentation: the user guide is now included as a PDF, in English and in
